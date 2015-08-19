@@ -196,6 +196,14 @@ int main(int argc, char **argv) try
     }
     if (!Util::FileExists(fileLBM)) throw new Fatal("Binary map not found \n");
 
+    std::ofstream parfile("param.res");
+    parfile << Util::_8s << DPx/3.0     << Util::_8s << DPy/3.0     << Util::_8s << DPz/3.0  << std::endl;
+    //parfile << Util::_8s << Inet(0)   << Util::_8s << Inet(1)     << Util::_8s << Inet(2)  << std::endl;
+    //parfile << Util::_8s << nx        << Util::_8s << ny          << Util::_8s << nz       << std::endl;
+    //parfile << Util::_8s << 1.0-Dom.Lat[0].SolidFraction()        << Util::_8s << poresize << std::endl;
+    //parfile << Util::_8s << mean_area << Util::_8s << mean_volume << Util::_8s << mean_sa  << std::endl;
+    parfile.close();
+
     hid_t file_id;
     file_id = H5Fopen(fileLBM.CStr(), H5F_ACC_RDONLY, H5P_DEFAULT);
     if (!H5LTfind_dataset(file_id,matrixLBM.CStr())) throw new Fatal("The matrix name does not match \n");;
@@ -265,12 +273,14 @@ int main(int argc, char **argv) try
         Dom.Lat[0].GetCell(iVec3_t(nx-1,i,j))->RhoBC = rho-0.5*DPx;
     }
 
-    Dom.WriteXDMF("test");
+    Dom.WriteXDMF("initial");
 
 
     //Solving
     Dom.Solve(Tf,dtOut,Setup,Report,filekey.CStr(),Render,Nproc);
     dat.oss_ss.close();
+
+    Dom.WriteXDMF("final");
 
     return 0;
 }
