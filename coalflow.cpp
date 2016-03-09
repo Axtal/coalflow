@@ -197,7 +197,7 @@ int main(int argc, char **argv) try
     if (!Util::FileExists(fileLBM)) throw new Fatal("Binary map not found \n");
 
     std::ofstream parfile("param.res");
-    parfile << Util::_8s << DPx/3.0     << Util::_8s << DPy/3.0     << Util::_8s << DPz/3.0  << std::endl;
+    parfile << Util::_8s << DPx/(3.0*nx)     << Util::_8s << DPy/(3.0*ny)     << Util::_8s << DPz/(3.0*nz)  << std::endl;
     //parfile << Util::_8s << Inet(0)   << Util::_8s << Inet(1)     << Util::_8s << Inet(2)  << std::endl;
     //parfile << Util::_8s << nx        << Util::_8s << ny          << Util::_8s << nz       << std::endl;
     //parfile << Util::_8s << 1.0-Dom.Lat[0].SolidFraction()        << Util::_8s << poresize << std::endl;
